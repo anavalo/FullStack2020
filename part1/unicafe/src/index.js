@@ -9,8 +9,12 @@ return (
   </button>
 )}
 
-
-
+const Statistics = (props) =>{
+  const {text, value, percenttext}=props
+  return(
+    <div>{text} {value} {percenttext}</div>
+  )
+}
 
 const App = () => {
   // save clicks of each button to own state
@@ -31,6 +35,7 @@ const App = () => {
   }
   
   const allClicks = (good + neutral + bad)
+  const average = ((good*1)+(bad*(-1)))/allClicks
 
   return (
     <div>
@@ -44,22 +49,11 @@ const App = () => {
       </div>
       <h1>Statistics</h1>
       <div>
-        good {good}
-      </div>
-      <div>
-        neutral {neutral}
-      </div>
-      <div>
-        bad {bad}
-      </div>
-      <div>
-        all {allClicks}
-      </div>
-      <div>
-        average {((good*1)+(bad*(-1)))/allClicks}
-      </div>
-      <div>
-        positive {good/allClicks} %
+        <Statistics text = 'good' value={good}/>
+        <Statistics text = 'neutral' value={neutral}/>
+        <Statistics text = 'bad' value={bad}/>
+        <Statistics text = 'average' value={average}/>
+        <Statistics text = 'positive' value={good/allClicks} percenttext={'%'} />
       </div>
       
     </div>
