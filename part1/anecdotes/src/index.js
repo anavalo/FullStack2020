@@ -35,13 +35,19 @@ const App = (props) => {
       copy[pos] +=1
       setVotes(copy)
   }
-return(
-    <div>{anecdotes[selected]}
+return(<div>
+    <h1>Anecdote of the Day</h1>
+    <div>{anecdotes[selected]}</div>
+    <div>has {votes[selected]} votes</div>
     <div>
-    <Button onClick={clickAnecdotes} text='next anecdote'/>
-    <Button onClick={clickVote} text='Vote'/>
+    <Button onClick={clickVote} text='vote'/>
+    <Button onClick={clickAnecdotes} text='random anecdote'/>
+
     </div>
-<div> this anecdote has {votes[selected]} votes</div>
+    <h1>Anecdote with most votes</h1>
+    <div>{anecdotes[votes.indexOf(Math.max(...votes))]} </div>
+    <div>has {Math.max(...votes)}</div>
+
     </div>
 )}
 
