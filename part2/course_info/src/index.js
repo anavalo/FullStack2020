@@ -1,44 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-const Course =(props)=>{
-    const {course} = props
-    
-    const Content = (props) =>{
-      const {parts} = props
-      return (
-        <li>{parts.name} {parts.exercises}</li>
-      )
-    }
-    const Header = (props)=>{
-      const {course} = props
-      return(
-          <h1>{course.name}</h1>
-      )
-  }
-    const courserows = () => course.parts.map(part =>{
-      return(
-      <Content
-        key={part.id}
-        parts={part}/> )})
-
-      const stats = () => course.parts.reduce((num, numOfEx)=>{
-          return num + numOfEx.exercises
-      }, 0)
-
-    return(<>
-      <div><Header course={course}/> </div>
-      <div>{courserows()}</div>
-      <div>Total excercieses {stats()}</div>
-      </>
-    )
-}
+import App from './App'
 
 
-const App = () => {
 
-  const course = {
+const courses = [
+  {
     name: 'Half Stack application development',
+    id: 1,
     parts: [
       {
         name: 'Fundamentals of React',
@@ -56,14 +25,30 @@ const App = () => {
         id: 3
       },
       {
-        name: 'Python',
-        exercises: 25,
+        name: 'Redux',
+        exercises: 11,
         id: 4
       }
-    ]}
+    ]
+  }, 
+  {
+    name: 'Node.js',
+    id: 2,
+    parts: [
+      {
+        name: 'Routing',
+        exercises: 3,
+        id: 1
+      },
+      {
+        name: 'Middlewares',
+        exercises: 7,
+        id: 2
+      }
+    ]
+  }
+]
 
-  return (
-      <div><Course course={course}/></div>  
-  )}
 
-ReactDOM.render(<App />, document.getElementById('root'))
+
+ReactDOM.render(<App courses={courses}/>, document.getElementById('root'))
