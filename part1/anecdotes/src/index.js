@@ -29,6 +29,7 @@ const App = (props) => {
       setSelected(num)
       setRandomNum(randomNum.concat(num))
   } 
+  
   const clickVote = () =>{
       let pos = randomNum.slice(-1).pop()
       let copy = [...votes]
