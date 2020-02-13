@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import Name from './components/Name'
 
 const App = () => {
-  const [ persons, setPersons] = useState([{name: 'Arto Hellas', id:1}]) 
+  const [ persons, setPersons] = useState([{name: 'Arto Hellas', id:1, num: parseInt('040123554')}]) 
   const [ newName, setNewName ] = useState('')
+  const [ newNum, setNewNum] = useState('')
 
   const handleInputChange = (event) =>{
     (Object.values(persons).some(d => d.name === event.target.value))?
@@ -12,15 +13,21 @@ const App = () => {
     setNewName(event.target.value)
   }
 
+  const handleNumberChange = (event)=>{
+    setNewNum(event.target.value)
+  }
+
   const addName = (event) =>{
     event.preventDefault()
     const nameObject = {
       name: newName,
-      id: persons.length+1
+      id: persons.length+1,
+      num: newNum
     }
     
     setPersons(persons.concat(nameObject))
     setNewName('')
+    setNewNum('')
    
   }
  
@@ -34,6 +41,9 @@ const App = () => {
         <div>name:
           <input value={newName} onChange={handleInputChange}>
           </input>
+          <div>number:
+            <input value={newNum} onChange={handleNumberChange}></input>
+          </div>
         </div>
         <button type="submit">add</button>
       </form>
