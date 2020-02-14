@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 const Name = ({ name }) =>{
     return(
-        <li>{name.name}</li>
+        <li>{name.name} {name.num}</li>
     )
     }
 
