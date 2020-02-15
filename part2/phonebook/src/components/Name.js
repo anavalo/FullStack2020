@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-const Name = ({ name }) =>{
+const Name = (props) =>{
+    const {persons, newSearch} = props
+    const rows = () => persons.filter(p => p.name.toLowerCase().includes(newSearch)).map(person =>
+        <li key={person.id}>{person.name}{person.num}</li>)
     return(
-        <li>{name.name} {name.num}</li>
+        rows()
     )
     }
-
 export default Name
