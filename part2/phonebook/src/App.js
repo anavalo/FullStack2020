@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import Name from './components/Name'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
-import axios from 'axios'
+import nameService from './services/persons'
 
 const App = () => {
 
@@ -12,8 +12,9 @@ const App = () => {
   const [ persons, setPersons] = useState([])
 
   useEffect(()=>{
-    axios.get('http://localhost:3001/persons')
-    .then(response=>{setPersons(response.data)})
+    nameService
+    .getAll()
+    .then(initialNames => setPersons(initialNames))
   }, [])
 
   const handleInputChange = (event) =>{
@@ -31,19 +32,37 @@ const App = () => {
     event.preventDefault()
     const nameObject = {
       name: newName,
-      id: persons.length+1,
-      num: newNum
+      number: newNum,
     }
-    
-    setPersons(persons.concat(nameObject))
-    setNewName('')
-    setNewNum('')
-   
+
+    nameService
+    .create(nameObject)
+    .then(data => {
+      setPersons(persons.concat(data))
+      setNewName('')
+      setNewNum('')
+    })
   }
 
+  const eliminate = (id) =>{
+    const newJson = persons.filter(p => p.id !== id)
+
+    nameService
+    .elim(id)
+    .then(
+      setPersons(newJson)
+    )
+  }
+
+  
   const handleSearchChange = (event)=>{
     setNewSearch(event.target.value)
   }
+
+  const rows = () => persons.filter(p => p.name.toLowerCase().includes(newSearch)).map(person =>
+    <Name key = {person.id} 
+    person={person}
+    remove = {() => eliminate(person.id)}></Name>)
 
   return (
     <div>
@@ -64,10 +83,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}/>
 
       <h2>Numbers</h2>
-
-        <Name persons={persons} 
-        newSearch={newSearch}/>
-
+      {rows()}
     </div>
   )
 }
