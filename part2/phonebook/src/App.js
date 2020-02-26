@@ -62,7 +62,7 @@ const App = () => {
   const rows = () => persons.filter(p => p.name.toLowerCase().includes(newSearch)).map(person =>
     <Name key = {person.id} 
     person={person}
-    remove = {() => eliminate(person.id)}></Name>)
+    remove = {() => window.confirm('Are you sure you want to delete?')? eliminate(person.id) : null}></Name>)
 
   return (
     <div>
