@@ -35,7 +35,7 @@ test('successfull creation of new blog post', async ()=>{
 })
 
 test('delete one blog entry', async ()=>{
-    const blogsAtStart = helper.blogsInDb
+    const blogsAtStart = await helper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
 
     
@@ -45,6 +45,19 @@ test('delete one blog entry', async ()=>{
 
     const blogsAfterDelete = await helper.blogsInDb()
     expect(blogsAfterDelete.length).toBe(helper.initialBlogs.length -1)
+})
+
+test('update blog entry', async ()=>{
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+
+    await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    // .send({"likes": 100})
+    .expect(200)
+
+    const blogsAfterUpdate = await helper.blogsInDb()
+    expect(blogsAfterUpdate[0].body).toEqual(blogsAtStart[0].body)
 })
 
 
