@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Togglable from './components/Togglable'
+import LoginForm from './components/LoginForm'
 import NewBlogForm from './components/NewBlogForm'
 import blogService from './services/blogs'
-import loginService from './services/login' 
+import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
-  const [blogFormVisible, setBlogFormVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -51,66 +52,44 @@ const App = () => {
     window.localStorage.removeItem('loggedUser')
     blogService.setToken(null)
     setUser(null)
-  }
-
-  const blogForm = () => { 
-    
-    const hidenWhenVisible = {display: blogFormVisible ? 'none' : ''}
-    const showWhenVisible = {display: blogFormVisible ? '' : 'none'}
-    
-    return(
-  <>
-  <h1>Blogs</h1>
-  <div>
-    {user.name} is logged in.
-    <button onClick={logoutUser}>logout</button>
-  </div>
-  <br></br>
-  <div style={hidenWhenVisible}>
-    <button onClick={()=>setBlogFormVisible(true)}>Add New Blog</button>
-  </div>
-  <div style={showWhenVisible}>
-  <NewBlogForm blogs={blogs} setBlogs={setBlogs}/>
-  <button onClick={()=>setBlogFormVisible(false)}>Cancel</button>
-  <br></br>
-  </div>
-  {blogs.map(blog =><Blog key={blog.id} blog={blog} user={user}/>)}
-  </>
-  )}
-  
-  
+  }  
 
 const loginForm = () => (
-  <div>
-  <form onSubmit={handleLogin}>
-    <div>
-      username
-        <input
-        type="text"
-        value={username}
-        name="Username"
-        onChange={({ target }) => setUsername(target.value)}
-      />
-    </div>
-    <div>
-      password
-        <input
-        type="password"
-        value={password}
-        name="Password"
-        onChange={({ target }) => setPassword(target.value)}
-      />
-    </div>
-    <button type="submit">login</button>
-  </form>
-  </div>      
+  <Togglable buttonLabel='login' closeLabel = 'cancel'>
+    <LoginForm 
+    username = {username}
+    password = {password}
+    handleLogin = {handleLogin}
+    handleUsernameChange = {({target})=>setUsername(target.value)}
+    handlePasswordChange = {({target})=>setPassword(target.value)}>
+    </LoginForm>
+  </Togglable>
 )
 
+const newBlogForm = () => (
+  <Togglable buttonLabel = 'post new' closeLabel = 'cancel'>
+    <NewBlogForm blogs={blogs} setBlogs={setBlogs}></NewBlogForm>
+  </Togglable>
+) 
+
   return (
-    <>
-    {user === null && loginForm()}
-    {user !== null && blogForm()}
-    </>
+    <div>
+      <h1>Blogs</h1>
+
+    {user === null ?
+     loginForm() :
+     <div>
+       <p>{user.name} is logged in</p>
+        <button onClick={logoutUser}>logout</button>
+       {newBlogForm()}
+     </div>
+     }
+
+     <ul>
+      {blogs.map((blog, i) => <Blog blog={blog} key={i}/>)}
+     </ul>
+
+    </div>
   )
   }
 

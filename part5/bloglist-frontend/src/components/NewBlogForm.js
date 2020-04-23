@@ -6,26 +6,26 @@ const NewBlogForm = ({blogs , setBlogs}) => {
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
 
-const addBlog = (event) => {
-event.preventDefault()
-const blogObject = {
-    title: newTitle,
-    author: newAuthor,
-    url: newUrl
-}
+  const addBlog = (event) => {
+  event.preventDefault()
+  const blogObject = {
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl
+  }
 
-blogService
-.create(blogObject)
-.then(returnedBlog => { setBlogs(blogs.concat(returnedBlog))
-setNewAuthor('')
-setNewTitle('')
-setNewUrl('')
-})
-}
+  blogService
+  .create(blogObject)
+  .then(returnedBlog => { setBlogs(blogs.concat(returnedBlog))
+  setNewAuthor('')
+  setNewTitle('')
+  setNewUrl('')
+  })
+  }
 
 return(
 <div>
-    <h2>create new</h2>
+  <h2>create new</h2>
 <form onSubmit={addBlog}>
   <div>
     title:<input type="text" value={newTitle} name="Title" onChange={({target})=>setNewTitle(target.value)}></input>
