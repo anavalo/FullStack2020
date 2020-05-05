@@ -6,7 +6,7 @@ const Togglable = (props) => {
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = {
-    display: visible? 'none' : '',
+    display: visible ? 'none' : '',
   }
 
   const showWhenVisible = {
@@ -17,11 +17,11 @@ const Togglable = (props) => {
   }
   return(
     <>
-      <div style={hideWhenVisible}>
-        {props.childrenWhenHide}
+      <div style={hideWhenVisible} className="nonTogglableContent">
+        {props.childrenWhenHide1} {props.childrenWhenHide2}
         <button onClick={toggleVisibility}>{props.buttonLabel}</button>
       </div>
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className="togglableContent">
         {props.children}
         <button onClick={toggleVisibility}>{props.closeLabel}</button>
       </div>
@@ -32,7 +32,7 @@ const Togglable = (props) => {
 
 Togglable.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
-  closeLabel: PropTypes.string.isRequired
+  // closeLabel: PropTypes.string.isRequired
 }
 
 export default Togglable
