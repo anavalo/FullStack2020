@@ -29,6 +29,12 @@ app.use('/api/users', usersRouter)
 app.use('/api/blogs', blogsRouter)
 app.use('/api/login', loginRouter)
 
+if (process.env.NODE_ENV === 'test') {
+  console.log('testing mode on')
+  const testingROuter = require('./controllers/testing')
+  app.use('/api/testing', testingROuter)
+}
+
 app.use(middleware.errorHandler)
 
 
