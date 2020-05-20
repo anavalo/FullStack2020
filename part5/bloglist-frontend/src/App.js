@@ -47,6 +47,28 @@ const App = () => {
     }
   }
 
+  const likeHandler = (id) => {
+    const blog = blogs.find(n => n.id === id)
+    const newLikes = blog.likes +=1
+    const blogObject = { ...blog, likes: newLikes }
+
+    blogService
+      .update(id, blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+      })
+  }
+
+  const deleteHandler = (id) => {
+    const deletedBlog = blogs.find(n => n.id===id)
+    blogService
+      .deleteObject(id)
+    setBlogs(blogs.filter(blog => blog !== deletedBlog)
+
+    )}
+
+
+
   const logoutUser = (event) => {
     event.preventDefault()
     window.localStorage.removeItem('loggedUser')
@@ -72,6 +94,8 @@ const App = () => {
     </Togglable>
   )
 
+
+
   return (
     <div>
       <h1>Blogs</h1>
@@ -80,13 +104,17 @@ const App = () => {
         loginForm() :
         <div>
           <p>{user.name} is logged in</p>
-          <button onClick={logoutUser}>logout</button>
+          <button id = "logout-button" onClick={logoutUser}>logout</button>
           {newBlogForm()}
         </div>
       }
 
       <ul>
-        {blogs.map((blog, i) => <Blog blog={blog} key={i}/>)}
+        {blogs
+          .sort((a, b) => b.likes - a.likes)
+          .map((blog, i) => <Blog blog={blog} key={i}
+            likeHandler={() => likeHandler(blog.id)}
+            removeHandler = {() => deleteHandler(blog.id)}/>)}
       </ul>
 
     </div>

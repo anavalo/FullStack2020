@@ -1,8 +1,9 @@
 import React from 'react'
-
 import Togglable from './Togglable'
 
-const Blog = ({ blog, likeHandler }) => {
+const Blog = ({ blog, likeHandler, removeHandler }) => {
+
+
 
   return (
     <>
@@ -11,6 +12,7 @@ const Blog = ({ blog, likeHandler }) => {
         <p>{blog.author}</p>
         <p>{blog.url}</p>
         <p>Likes {blog.likes}<button onClick={likeHandler}>like</button></p>
+        <p><button onClick = {removeHandler}>remove</button></p>
       </Togglable>
     </>
 
