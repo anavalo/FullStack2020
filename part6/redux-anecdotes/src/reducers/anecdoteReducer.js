@@ -1,7 +1,5 @@
 import anecdoteService from '../services/anecdotes'
 
-// const getId = () => (100000 * Math.random()).toFixed(0)
-
 export const vote = (anecdote) => {
   return async dispatch => {
     const updAnecdote = await anecdoteService.update(anecdote)
