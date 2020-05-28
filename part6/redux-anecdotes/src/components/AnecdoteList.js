@@ -28,7 +28,7 @@ const AnecdoteList = () => {
             <Anecdote
             anecdote={anecdote}
             key={anecdote.id}
-            handleVoteClick ={()=>voteDispatcher(anecdote.id, anecdote.content)}
+            handleVoteClick ={()=>voteDispatcher(anecdote)}
             />
         )}
         </ul>
